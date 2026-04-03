@@ -4,20 +4,24 @@ import 'package:responsive_breakpoints/extensions_theme.dart';
 import '../../core/constants/app_breakpoints.dart';
 import 'color_tokens.dart';
 import 'radii.dart';
+import 'spacing.dart';
 import 'text_styles.dart';
 
 abstract final class AppTheme {
   static ThemeData dark() {
     const scheme = AppColorTokens.colorScheme;
+    final textTheme = AppTextStyles.textTheme(scheme);
 
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: scheme,
       scaffoldBackgroundColor: AppColorTokens.background,
-      textTheme: AppTextStyles.textTheme(scheme),
+      textTheme: textTheme,
       extensions: const <ThemeExtension<dynamic>>[
-        ResponsiveBreakpointTheme<AppBreakpoint>(breakpoints: AppBreakpoint.all),
+        ResponsiveBreakpointTheme<AppBreakpoint>(
+          breakpoints: AppBreakpoint.all,
+        ),
       ],
       splashFactory: InkSparkle.splashFactory,
       appBarTheme: AppBarTheme(
@@ -33,9 +37,39 @@ abstract final class AppTheme {
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: AppRadii.card),
       ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: AppColorTokens.primary,
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: scheme.primary,
+          foregroundColor: scheme.onPrimary,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.x5,
+            vertical: AppSpacing.x3,
+          ),
+          textStyle: textTheme.labelLarge?.copyWith(color: scheme.onPrimary),
+          shape: const RoundedRectangleBorder(borderRadius: AppRadii.button),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: scheme.primary,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.x4,
+            vertical: AppSpacing.x3,
+          ),
+          textStyle: textTheme.labelLarge?.copyWith(color: scheme.primary),
+        ),
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColorTokens.surfaceContainerLow,
+        floatingLabelStyle: TextStyle(color: scheme.primary),
+        labelStyle: TextStyle(color: scheme.onSurfaceVariant),
+        hintStyle: TextStyle(
+          color: scheme.onSurfaceVariant.withValues(alpha: 0.8),
+        ),
         border: OutlineInputBorder(
           borderRadius: AppRadii.button,
           borderSide: BorderSide(
@@ -54,10 +88,18 @@ abstract final class AppTheme {
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: AppColorTokens.surfaceContainerLowest,
-        side: const BorderSide(color: AppColorTokens.primary),
+        backgroundColor: AppColorTokens.secondaryContainer,
+        selectedColor: AppColorTokens.secondary,
+        side: BorderSide.none,
         shape: const StadiumBorder(),
-        labelStyle: TextStyle(color: scheme.onSurface),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.x2,
+          vertical: AppSpacing.x1,
+        ),
+        labelStyle: TextStyle(
+          color: scheme.onSecondaryContainer,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       dividerTheme: const DividerThemeData(
         // No-line rule: dividers should be avoided; when used, keep subtle.
@@ -67,4 +109,3 @@ abstract final class AppTheme {
     );
   }
 }
-

@@ -16,55 +16,76 @@ abstract final class AppTextStyles {
     TextStyle? withColor(TextStyle? style, Color color) =>
         style?.copyWith(color: color);
 
+    TextStyle? display(TextStyle? style, FontWeight weight) =>
+        style?.copyWith(fontWeight: weight, height: 1.02, letterSpacing: -0.8);
+
+    TextStyle? editorialHeadline(TextStyle? style) => style?.copyWith(
+      fontWeight: FontWeight.w600,
+      height: 1.08,
+      letterSpacing: -0.35,
+    );
+
     return base.copyWith(
       displayLarge: withColor(
-        headline.displayLarge?.copyWith(
-          fontWeight: FontWeight.w700,
-          height: 1.02,
-          letterSpacing: -0.5,
-        ),
+        display(headline.displayLarge, FontWeight.w700),
         scheme.onSurface,
       ),
       displayMedium: withColor(
-        headline.displayMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-          height: 1.06,
-          letterSpacing: -0.25,
-        ),
+        display(headline.displayMedium, FontWeight.w700),
+        scheme.onSurface,
+      ),
+      displaySmall: withColor(
+        display(headline.displaySmall, FontWeight.w600),
         scheme.onSurface,
       ),
       headlineLarge: withColor(
-        headline.headlineLarge?.copyWith(fontWeight: FontWeight.w600),
+        editorialHeadline(headline.headlineLarge),
         scheme.onSurface,
       ),
       headlineMedium: withColor(
-        headline.headlineMedium?.copyWith(fontWeight: FontWeight.w600),
+        editorialHeadline(headline.headlineMedium),
+        scheme.onSurface,
+      ),
+      headlineSmall: withColor(
+        editorialHeadline(headline.headlineSmall),
         scheme.onSurface,
       ),
       titleLarge: withColor(
-        body.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+        body.titleLarge?.copyWith(fontWeight: FontWeight.w600, height: 1.18),
         scheme.onSurface,
       ),
       titleMedium: withColor(
-        body.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+        body.titleMedium?.copyWith(fontWeight: FontWeight.w600, height: 1.2),
+        scheme.onSurface,
+      ),
+      titleSmall: withColor(
+        body.titleSmall?.copyWith(fontWeight: FontWeight.w600, height: 1.2),
         scheme.onSurface,
       ),
       bodyLarge: withColor(body.bodyLarge, scheme.onSurface),
       bodyMedium: withColor(body.bodyMedium, scheme.onSurface),
       bodySmall: withColor(body.bodySmall, scheme.onSurface),
       labelLarge: withColor(
-        labels.labelLarge?.copyWith(letterSpacing: 0.4),
+        labels.labelLarge?.copyWith(
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.6,
+        ),
         scheme.onSurfaceVariant,
       ),
       labelMedium: withColor(
-        labels.labelMedium?.copyWith(letterSpacing: 0.5),
+        labels.labelMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.8,
+        ),
         scheme.onSurfaceVariant,
       ),
       labelSmall: withColor(
-        labels.labelSmall?.copyWith(letterSpacing: 0.6),
+        labels.labelSmall?.copyWith(
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.9,
+        ),
         scheme.onSurfaceVariant,
       ),
     );
   }
 }
-

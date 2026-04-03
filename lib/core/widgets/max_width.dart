@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class MaxWidth extends StatelessWidget {
   const MaxWidth({
     super.key,
-    this.maxWidth = 1200,
+    this.maxWidth = 1280,
     this.padding = EdgeInsets.zero,
     required this.child,
   });
@@ -17,12 +17,8 @@ class MaxWidth extends StatelessWidget {
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
-        child: Padding(
-          padding: padding,
-          child: child,
-        ),
+        child: Padding(padding: padding, child: child),
       ),
     );
   }
 }
-

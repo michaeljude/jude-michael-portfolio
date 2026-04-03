@@ -10,37 +10,70 @@ class SectionSurface extends StatelessWidget {
     this.background = AppColorTokens.surfaceContainer,
     this.padding = const EdgeInsets.all(AppSpacing.x6),
     this.radius = AppRadii.card,
+    this.outlined = false,
+    this.glow = true,
+    this.gradientTint = false,
     required this.child,
   });
 
   final Color background;
   final EdgeInsets padding;
   final BorderRadius radius;
+  final bool outlined;
+  final bool glow;
+  final bool gradientTint;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
+    final primaryTintAlpha = gradientTint ? 0.22 : 0.12;
+    final tertiaryTintAlpha = gradientTint ? 0.07 : 0.03;
+    final glowColor = gradientTint
+        ? AppColorTokens.primary.withValues(alpha: 0.18)
+        : AppColorTokens.ambientGlow;
+    final glowBlur = gradientTint ? 64.0 : 48.0;
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: background,
+        gradient: gradientTint
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  Color.alphaBlend(
+                    AppColorTokens.primary.withValues(alpha: primaryTintAlpha),
+                    background,
+                  ),
+                  background,
+                  Color.alphaBlend(
+                    AppColorTokens.tertiary.withValues(
+                      alpha: tertiaryTintAlpha,
+                    ),
+                    background,
+                  ),
+                ],
+                stops: const <double>[0, 0.55, 1],
+              )
+            : null,
         borderRadius: radius,
-        boxShadow: const <BoxShadow>[
-          BoxShadow(
-            color: AppColorTokens.indigoAmbientShadow,
-            blurRadius: 48,
-            spreadRadius: 0,
-            offset: Offset(0, 0),
-          ),
-        ],
-        border: Border.all(
-          color: AppColorTokens.outlineVariant.withValues(alpha: 0.15),
-        ),
+        boxShadow: glow
+            ? <BoxShadow>[
+                BoxShadow(
+                  color: glowColor,
+                  blurRadius: glowBlur,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 0),
+                ),
+              ]
+            : null,
+        border: outlined
+            ? Border.all(
+                color: AppColorTokens.outlineVariant.withValues(alpha: 0.15),
+              )
+            : null,
       ),
-      child: Padding(
-        padding: padding,
-        child: child,
-      ),
+      child: Padding(padding: padding, child: child),
     );
   }
 }
-

@@ -38,72 +38,74 @@ class _SkillsView extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final scheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      backgroundColor: AppColorTokens.background,
-      body: MaxWidth(
-        padding: const EdgeInsets.all(AppSpacing.x6),
-        child: ListView(
-          children: <Widget>[
-            Text('Skills', style: textTheme.displaySmall),
-            const SizedBox(height: AppSpacing.x4),
-            Text(
-              'Grouped, tagged, and tuned for signal.',
-              style: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+    return MaxWidth(
+      padding: const EdgeInsets.all(AppSpacing.x6),
+      child: ListView(
+        children: <Widget>[
+          Text(
+            'CAPABILITY MAP',
+            style: textTheme.labelMedium?.copyWith(color: scheme.primary),
+          ),
+          const SizedBox(height: AppSpacing.x2),
+          Text('Skills', style: textTheme.displaySmall),
+          const SizedBox(height: AppSpacing.x4),
+          Text(
+            'Grouped, tagged, and arranged for quick recruiter scanning without losing technical texture.',
+            style: textTheme.bodyLarge?.copyWith(
+              color: scheme.onSurfaceVariant,
             ),
-            const SizedBox(height: AppSpacing.x8),
-            Stack(
-              children: <Widget>[
-                BlocSelector<SkillsCubit, SkillsState, List<SkillGroup>>(
-                  selector: (state) => state.groups,
-                  builder: (context, groups) {
-                    return Column(
-                      children: <Widget>[
-                        for (var i = 0; i < groups.length; i++) ...<Widget>[
-                          SectionSurface(
-                            background: i.isEven
-                                ? AppColorTokens.surfaceContainer
-                                : AppColorTokens.surfaceContainerHigh,
-                            child: _SkillGroup(
-                              title: groups[i].title,
-                              skills: groups[i].skills,
-                            ),
+          ),
+          const SizedBox(height: AppSpacing.x8),
+          Stack(
+            children: <Widget>[
+              BlocSelector<SkillsCubit, SkillsState, List<SkillGroup>>(
+                selector: (state) => state.groups,
+                builder: (context, groups) {
+                  return Column(
+                    children: <Widget>[
+                      for (var i = 0; i < groups.length; i++) ...<Widget>[
+                        SectionSurface(
+                          background: i.isEven
+                              ? AppColorTokens.surfaceContainer
+                              : AppColorTokens.surfaceContainerHigh,
+                          glow: i.isEven,
+                          child: _SkillGroup(
+                            title: groups[i].title,
+                            skills: groups[i].skills,
                           ),
-                          if (i != groups.length - 1)
-                            const SizedBox(height: AppSpacing.x4),
-                        ],
+                        ),
+                        if (i != groups.length - 1)
+                          const SizedBox(height: AppSpacing.x4),
                       ],
+                    ],
+                  );
+                },
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: BlocSelector<SkillsCubit, SkillsState, bool>(
+                  selector: (state) => state.isLoading,
+                  builder: (context, isLoading) {
+                    if (!isLoading) return const SizedBox.shrink();
+                    return const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     );
                   },
                 ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: BlocSelector<SkillsCubit, SkillsState, bool>(
-                    selector: (state) => state.isLoading,
-                    builder: (context, isLoading) {
-                      if (!isLoading) return const SizedBox.shrink();
-                      return const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
 class _SkillGroup extends StatelessWidget {
-  const _SkillGroup({
-    required this.title,
-    required this.skills,
-  });
+  const _SkillGroup({required this.title, required this.skills});
 
   final String title;
   final List<String> skills;
@@ -111,10 +113,16 @@ class _SkillGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final scheme = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        Text(
+          title.toUpperCase(),
+          style: textTheme.labelMedium?.copyWith(color: scheme.primary),
+        ),
+        const SizedBox(height: AppSpacing.x2),
         Text(title, style: textTheme.titleMedium),
         const SizedBox(height: AppSpacing.x4),
         Wrap(
@@ -140,4 +148,3 @@ class _SkillChip extends StatelessWidget {
     );
   }
 }
-

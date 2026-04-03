@@ -18,43 +18,57 @@ class PrimaryGradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final foreground = scheme.onPrimary;
     final child = Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         if (icon != null) ...<Widget>[
-          Icon(icon, size: 18, color: Colors.white),
+          Icon(icon, size: 18, color: foreground),
           const SizedBox(width: AppSpacing.x2),
         ],
         Text(
           label,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Colors.white,
-                letterSpacing: 0.4,
-              ),
+            color: foreground,
+            letterSpacing: 0.4,
+          ),
         ),
       ],
     );
 
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        gradient: AppColorTokens.primaryGradient,
-        borderRadius: AppRadii.button,
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
+    return Opacity(
+      opacity: onPressed == null ? 0.45 : 1,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: AppColorTokens.primaryGradient,
           borderRadius: AppRadii.button,
-          onTap: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.x5,
-              vertical: AppSpacing.x3,
+          border: Border.all(
+            color: AppColorTokens.outlineVariant.withValues(alpha: 0.15),
+          ),
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: AppColorTokens.ambientGlow,
+              blurRadius: 36,
+              offset: Offset(0, 0),
             ),
-            child: child,
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: AppRadii.button,
+            onTap: onPressed,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.x5,
+                vertical: AppSpacing.x3,
+              ),
+              child: child,
+            ),
           ),
         ),
       ),
     );
   }
 }
-
