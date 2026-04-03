@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/theme/color_tokens.dart';
 import '../../app/theme/radii.dart';
 import '../../app/theme/spacing.dart';
+import 'app_text.dart';
 
 class PrimaryGradientButton extends StatelessWidget {
   const PrimaryGradientButton({
@@ -31,12 +32,11 @@ class PrimaryGradientButton extends StatelessWidget {
           Icon(icon, size: 18, color: foreground),
           const SizedBox(width: AppSpacing.x2),
         ],
-        Text(
+        AppText(
           label,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: foreground,
-            letterSpacing: 0.4,
-          ),
+          variant: AppTextVariant.labelLarge,
+          color: foreground,
+          letterSpacing: 0.4,
         ),
       ],
     );

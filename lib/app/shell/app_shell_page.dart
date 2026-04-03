@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/constants/app_breakpoints.dart';
+import '../../core/widgets/app_text.dart';
 import '../../core/widgets/grid_background.dart';
 import '../../core/widgets/max_width.dart';
 import '../../core/widgets/primary_gradient_button.dart';
@@ -87,9 +88,6 @@ class _TopNavBar extends StatelessWidget {
 
     Widget navItem(int index, String label) {
       final selected = activeIndex == index;
-      final textStyle = theme.textTheme.labelLarge?.copyWith(
-        color: selected ? scheme.primary : scheme.onSurfaceVariant,
-      );
 
       return AnimatedContainer(
         duration: const Duration(milliseconds: 260),
@@ -112,7 +110,11 @@ class _TopNavBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(label, style: textStyle),
+                AppText(
+                  label,
+                  variant: AppTextVariant.labelLarge,
+                  tone: selected ? AppTextTone.primary : AppTextTone.muted,
+                ),
                 const SizedBox(height: 3),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 220),
@@ -224,19 +226,17 @@ class _BrandBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
           'JUDE MICHAEL',
-          style: GoogleFonts.spaceGrotesk(
-            textStyle: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              letterSpacing: 4,
-            ),
-          ),
+          style: AppTextStylesResolver.resolve(
+            context,
+            variant: AppTextVariant.titleLarge,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 4,
+          )?.copyWith(fontFamily: GoogleFonts.spaceGrotesk().fontFamily),
         ),
       ],
     );

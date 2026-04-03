@@ -1,13 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 
+import '../../firebase_options.dart';
+
 abstract final class FirebaseInitializer {
   static Future<bool> tryInitialize() async {
     try {
-      await Firebase.initializeApp();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       return true;
     } catch (_) {
-      // For Flutter web, this typically means firebase options are not configured
-      // yet (flutterfire configure not run). We keep the app bootable.
       return false;
     }
   }

@@ -6,6 +6,7 @@ import '../../../../app/theme/spacing.dart';
 import '../../../../app/theme/radii.dart';
 import '../../../../core/constants/app_breakpoints.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/widgets/app_text.dart';
 import '../../../../core/widgets/max_width.dart';
 import '../../../../core/widgets/primary_gradient_button.dart';
 import '../../../../core/widgets/secondary_button.dart';
@@ -37,7 +38,6 @@ class _Hero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final scheme = Theme.of(context).colorScheme;
 
     final left = Column(
@@ -71,12 +71,11 @@ class _Hero extends StatelessWidget {
                   child: const SizedBox(width: 8, height: 8),
                 ),
                 const SizedBox(width: AppSpacing.x2),
-                Text(
+                const AppText(
                   'AVIALABLE FOR NEW PROJECTS',
-                  style: textTheme.labelMedium?.copyWith(
-                    color: scheme.primary,
-                    letterSpacing: 1.2,
-                  ),
+                  variant: AppTextVariant.labelMedium,
+                  tone: AppTextTone.primary,
+                  letterSpacing: 1.2,
                 ),
               ],
             ),
@@ -85,9 +84,6 @@ class _Hero extends StatelessWidget {
         const SizedBox(height: AppSpacing.x3),
         Builder(
           builder: (context) {
-            final baseStyle = isDesktop
-                ? textTheme.displayLarge
-                : textTheme.displayMedium;
             final parts = AppStrings.heroName.split(' ');
             final last = parts.isNotEmpty ? parts.last : '';
             final first = parts.length > 1
@@ -96,12 +92,23 @@ class _Hero extends StatelessWidget {
 
             return Text.rich(
               TextSpan(
-                style: baseStyle,
+                style: AppTextStylesResolver.resolve(
+                  context,
+                  variant: isDesktop
+                      ? AppTextVariant.displayLarge
+                      : AppTextVariant.displayMedium,
+                ),
                 children: <InlineSpan>[
                   TextSpan(text: '$first '),
                   TextSpan(
                     text: last,
-                    style: baseStyle?.copyWith(color: scheme.primary),
+                    style: AppTextStylesResolver.resolve(
+                      context,
+                      variant: isDesktop
+                          ? AppTextVariant.displayLarge
+                          : AppTextVariant.displayMedium,
+                      tone: AppTextTone.primary,
+                    ),
                   ),
                 ],
               ),
@@ -113,8 +120,10 @@ class _Hero extends StatelessWidget {
           padding: const EdgeInsets.only(right: 70),
           child: Text.rich(
             TextSpan(
-              style: textTheme.titleMedium?.copyWith(
-                color: scheme.onSurfaceVariant,
+              style: AppTextStylesResolver.resolve(
+                context,
+                variant: AppTextVariant.titleMedium,
+                tone: AppTextTone.muted,
               ),
               children: const <InlineSpan>[
                 TextSpan(
@@ -135,13 +144,12 @@ class _Hero extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.x5),
-        Padding(
-          padding: const EdgeInsets.only(right: 200),
-          child: Text(
+        const Padding(
+          padding: EdgeInsets.only(right: 200),
+          child: AppText(
             AppStrings.heroDescription,
-            style: textTheme.bodyLarge?.copyWith(
-              color: scheme.onSurfaceVariant,
-            ),
+            variant: AppTextVariant.bodyLarge,
+            tone: AppTextTone.muted,
           ),
         ),
         const SizedBox(height: AppSpacing.x12),
