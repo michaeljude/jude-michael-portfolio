@@ -83,6 +83,12 @@ abstract final class AppColorTokens {
     colors: <Color>[primary, primaryContainer],
   );
 
+  static const LinearGradient secondaryButtonGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: <Color>[ambientGlow, ambientGlow],
+  );
+
   static const ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.dark,
     primary: primary,

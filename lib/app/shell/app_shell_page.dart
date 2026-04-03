@@ -48,7 +48,6 @@ class AppShellPage extends StatelessWidget {
                       onSelected: tabsRouter.setActiveIndex,
                       isDesktop: isDesktop,
                     ),
-                    const SizedBox(height: AppSpacing.x5),
                     Expanded(child: child),
                   ],
                 ),

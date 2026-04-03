@@ -10,6 +10,8 @@ class SectionSurface extends StatelessWidget {
     this.background = AppColorTokens.surfaceContainer,
     this.padding = const EdgeInsets.all(AppSpacing.x6),
     this.radius = AppRadii.card,
+    this.outlineColor = AppColorTokens.outlineVariant,
+    this.outlineWidth = 3,
     this.outlined = false,
     this.glow = true,
     this.gradientTint = false,
@@ -19,6 +21,8 @@ class SectionSurface extends StatelessWidget {
   final Color background;
   final EdgeInsets padding;
   final BorderRadius radius;
+  final Color outlineColor;
+  final double outlineWidth;
   final bool outlined;
   final bool glow;
   final bool gradientTint;
@@ -69,7 +73,8 @@ class SectionSurface extends StatelessWidget {
             : null,
         border: outlined
             ? Border.all(
-                color: AppColorTokens.outlineVariant.withValues(alpha: 0.15),
+                color: outlineColor.withValues(alpha: 0.15),
+                width: outlineWidth,
               )
             : null,
       ),

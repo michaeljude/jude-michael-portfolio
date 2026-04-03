@@ -4,8 +4,8 @@ import '../../app/theme/color_tokens.dart';
 import '../../app/theme/radii.dart';
 import '../../app/theme/spacing.dart';
 
-class PrimaryGradientButton extends StatelessWidget {
-  const PrimaryGradientButton({
+class SecondaryButton extends StatelessWidget {
+  const SecondaryButton({
     super.key,
     required this.label,
     this.onPressed,
@@ -45,7 +45,7 @@ class PrimaryGradientButton extends StatelessWidget {
       opacity: onPressed == null ? 0.45 : 1,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: AppColorTokens.primaryGradient,
+          gradient: AppColorTokens.secondaryButtonGradient,
           borderRadius: AppRadii.button,
           border: Border.all(
             color: AppColorTokens.outlineVariant.withValues(alpha: 0.15),

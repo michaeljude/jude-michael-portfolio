@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/theme/color_tokens.dart';
 import '../../../../app/theme/spacing.dart';
+import '../../../../app/theme/radii.dart';
 import '../../../../core/constants/app_breakpoints.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/widgets/max_width.dart';
 import '../../../../core/widgets/primary_gradient_button.dart';
+import '../../../../core/widgets/secondary_button.dart';
 import '../../../../core/widgets/section_surface.dart';
 
 @RoutePage()
@@ -23,71 +25,7 @@ class HomePage extends StatelessWidget {
         horizontal: isDesktop ? AppSpacing.x6 : AppSpacing.x4,
         vertical: isDesktop ? AppSpacing.x8 : AppSpacing.x6,
       ),
-      child: ListView(
-        children: <Widget>[
-          _Hero(isDesktop: isDesktop),
-          const SizedBox(height: AppSpacing.x14),
-          const _SectionHeader(
-            eyebrow: 'System principles',
-            title: 'Built like a blueprint, not a brochure.',
-            body:
-                'Every section follows the Circuit & Syntax surface stack: dark foundations, tonal depth, and precise editorial contrast.',
-          ),
-          const SizedBox(height: AppSpacing.x5),
-          if (isDesktop)
-            const Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: _HighlightCard(
-                    title: 'No-line surfaces',
-                    body:
-                        'Sections step through tonal plates instead of hard dividers, letting depth come from color and spacing.',
-                  ),
-                ),
-                SizedBox(width: AppSpacing.x4),
-                Expanded(
-                  child: _HighlightCard(
-                    title: 'Intentional asymmetry',
-                    body:
-                        'Large editorial type is balanced against denser technical panels to create a confident scanning rhythm.',
-                  ),
-                ),
-                SizedBox(width: AppSpacing.x4),
-                Expanded(
-                  child: _HighlightCard(
-                    title: 'Glass + gradient',
-                    body:
-                        'Navigation and CTAs glow subtly with emerald highlights while keeping the nocturnal interface calm.',
-                  ),
-                ),
-              ],
-            )
-          else
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _HighlightCard(
-                  title: 'No-line surfaces',
-                  body:
-                      'Sections step through tonal plates instead of hard dividers, letting depth come from color and spacing.',
-                ),
-                SizedBox(height: AppSpacing.x4),
-                _HighlightCard(
-                  title: 'Intentional asymmetry',
-                  body:
-                      'Large editorial type is balanced against denser technical panels to create a confident scanning rhythm.',
-                ),
-                SizedBox(height: AppSpacing.x4),
-                _HighlightCard(
-                  title: 'Glass + gradient',
-                  body:
-                      'Navigation and CTAs glow subtly with emerald highlights while keeping the nocturnal interface calm.',
-                ),
-              ],
-            ),
-        ],
-      ),
+      child: ListView(children: <Widget>[_Hero(isDesktop: isDesktop)]),
     );
   }
 }
@@ -104,6 +42,7 @@ class _Hero extends StatelessWidget {
 
     final left = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 10,
       children: <Widget>[
         DecoratedBox(
           decoration: BoxDecoration(
@@ -144,60 +83,97 @@ class _Hero extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.x3),
-        Text(
-          AppStrings.heroName,
-          style: isDesktop ? textTheme.displayLarge : textTheme.displayMedium,
+        Builder(
+          builder: (context) {
+            final baseStyle = isDesktop
+                ? textTheme.displayLarge
+                : textTheme.displayMedium;
+            final parts = AppStrings.heroName.split(' ');
+            final last = parts.isNotEmpty ? parts.last : '';
+            final first = parts.length > 1
+                ? parts.sublist(0, parts.length - 1).join(' ')
+                : AppStrings.heroName;
+
+            return Text.rich(
+              TextSpan(
+                style: baseStyle,
+                children: <InlineSpan>[
+                  TextSpan(text: '$first '),
+                  TextSpan(
+                    text: last,
+                    style: baseStyle?.copyWith(color: scheme.primary),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
         const SizedBox(height: AppSpacing.x4),
-        Text(
-          AppStrings.heroSubtitle,
-          style: textTheme.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
+        Padding(
+          padding: const EdgeInsets.only(right: 70),
+          child: Text.rich(
+            TextSpan(
+              style: textTheme.titleMedium?.copyWith(
+                color: scheme.onSurfaceVariant,
+              ),
+              children: const <InlineSpan>[
+                TextSpan(
+                  text: 'Senior Mobile Software Engineer. ',
+                  style: TextStyle(fontSize: 32),
+                ),
+                TextSpan(
+                  text:
+                      'Specialist in Clean Architecture, Scalable Mobile Systems, and AI Integration.',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 32,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        const SizedBox(height: AppSpacing.x6),
+        const SizedBox(height: AppSpacing.x5),
+        Padding(
+          padding: const EdgeInsets.only(right: 200),
+          child: Text(
+            AppStrings.heroDescription,
+            style: textTheme.bodyLarge?.copyWith(
+              color: scheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.x12),
         Wrap(
           spacing: AppSpacing.x3,
           runSpacing: AppSpacing.x3,
           children: <Widget>[
             PrimaryGradientButton(
-              label: 'Explore projects',
+              label: 'View engineering portfolio',
               icon: Icons.layers,
               onPressed: () => context.tabsRouter.setActiveIndex(1),
             ),
-            const SizedBox(width: AppSpacing.x3),
-            TextButton(
+            SecondaryButton(
               onPressed: () => context.tabsRouter.setActiveIndex(4),
-              child: const Text('Contact'),
+              label: 'Get in touch',
+              foregroundColor: Colors.white,
             ),
           ],
         ),
         const SizedBox(height: AppSpacing.x6),
-        const Wrap(
-          spacing: AppSpacing.x2,
-          runSpacing: AppSpacing.x2,
-          children: <Widget>[
-            Chip(label: Text('Flutter')),
-            Chip(label: Text('SwiftUI')),
-            Chip(label: Text('Firebase')),
-            Chip(label: Text('Clean Architecture')),
-          ],
-        ),
       ],
     );
 
-    const right = Column(
-      children: <Widget>[
-        SectionSurface(
-          background: AppColorTokens.surfaceContainerHigh,
-          child: _Stats(),
-        ),
-        SizedBox(height: AppSpacing.x4),
-        SectionSurface(
-          background: AppColorTokens.surfaceContainerLowest,
-          outlined: true,
-          gradientTint: true,
-          child: _BlueprintBlock(),
-        ),
-      ],
+    const right = Padding(
+      padding: EdgeInsets.only(top: 48.0),
+      child: SectionSurface(
+        background: AppColorTokens.surfaceContainerLowest,
+        outlined: true,
+        outlineColor: AppColorTokens.primary,
+        outlineWidth: 5,
+        child: _SignalArchitectureImage(),
+      ),
     );
 
     if (!isDesktop) {
@@ -222,153 +198,21 @@ class _Hero extends StatelessWidget {
   }
 }
 
-class _Stats extends StatelessWidget {
-  const _Stats();
+class _SignalArchitectureImage extends StatelessWidget {
+  const _SignalArchitectureImage();
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final scheme = Theme.of(context).colorScheme;
-
-    Widget stat(String label, String value) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(value, style: textTheme.headlineMedium),
-          const SizedBox(height: AppSpacing.x1),
-          Text(
-            label,
-            style: textTheme.labelMedium?.copyWith(
-              color: scheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Signal',
-          style: textTheme.labelMedium?.copyWith(color: scheme.primary),
+    return ClipRRect(
+      borderRadius: AppRadii.card,
+      child: AspectRatio(
+        aspectRatio: 390 / 384, // matches reference card screenshot
+        child: Image.asset(
+          'assets/img/home-code.png',
+          fit: BoxFit.contain,
+          width: 390,
+          height: 384,
         ),
-        const SizedBox(height: AppSpacing.x4),
-        Wrap(
-          spacing: AppSpacing.x8,
-          runSpacing: AppSpacing.x4,
-          children: <Widget>[
-            stat('Primary', '#3FFF8B'),
-            stat('Mode', 'Dark'),
-            stat('Rule', 'No-line'),
-            stat('Accent', 'Cyber Blue'),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _BlueprintBlock extends StatelessWidget {
-  const _BlueprintBlock();
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final scheme = Theme.of(context).colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'ARCHITECTURE SIGNAL',
-          style: textTheme.labelMedium?.copyWith(color: scheme.secondary),
-        ),
-        const SizedBox(height: AppSpacing.x3),
-        Text(
-          'surface -> section -> module -> action',
-          style: textTheme.titleMedium?.copyWith(color: scheme.onSurface),
-        ),
-        const SizedBox(height: AppSpacing.x3),
-        Text(
-          'Tonal layers replace borders. Motion behaves like a responsive app, not a static landing page.',
-          style: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
-        ),
-      ],
-    );
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({
-    required this.eyebrow,
-    required this.title,
-    required this.body,
-  });
-
-  final String eyebrow;
-  final String title;
-  final String body;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final scheme = Theme.of(context).colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          eyebrow.toUpperCase(),
-          style: textTheme.labelMedium?.copyWith(color: scheme.primary),
-        ),
-        const SizedBox(height: AppSpacing.x2),
-        Text(title, style: textTheme.headlineMedium),
-        const SizedBox(height: AppSpacing.x3),
-        Text(
-          body,
-          style: textTheme.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
-        ),
-      ],
-    );
-  }
-}
-
-class _HighlightCard extends StatelessWidget {
-  const _HighlightCard({required this.title, required this.body});
-
-  final String title;
-  final String body;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final scheme = Theme.of(context).colorScheme;
-
-    return SectionSurface(
-      background: AppColorTokens.surfaceContainer,
-      glow: false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '0${title == 'No-line surfaces'
-                ? 1
-                : title == 'Intentional asymmetry'
-                ? 2
-                : 3}',
-            style: textTheme.labelMedium?.copyWith(color: scheme.primary),
-          ),
-          const SizedBox(height: AppSpacing.x2),
-          Text(title, style: textTheme.titleMedium),
-          const SizedBox(height: AppSpacing.x2),
-          Text(
-            body,
-            style: textTheme.bodyMedium?.copyWith(
-              color: scheme.onSurfaceVariant,
-            ),
-          ),
-        ],
       ),
     );
   }

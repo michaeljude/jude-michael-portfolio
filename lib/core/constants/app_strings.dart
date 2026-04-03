@@ -7,9 +7,12 @@ abstract final class AppStrings {
   static const String appShortName = 'Jude Portfolio';
 
   /// Home hero — primary line.
-  static const String heroName = 'Jude Michael de Roma';
+  static const String heroName = 'JUDE MICHAEL';
 
-  /// Home hero — supporting line (design system tagline preserved).
+  /// Home hero — supporting line (matches Stitch home H2).
   static const String heroSubtitle =
-      'Portfolio — The Precision Blueprint: engineered UI, intentional hierarchy, and tonal surfaces.';
+      'Senior Mobile Software Engineer. Specialist in Clean Architecture, Scalable Mobile Systems, and AI Integration.';
+
+   static const String heroDescription = 'With 7 years of deep-tech experience, I engineer high-performance mobile ecosystems. Expert in Flutter and native Android development, focusing on robust architectures that scale.';
+          
 }

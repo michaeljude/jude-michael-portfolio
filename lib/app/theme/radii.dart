@@ -13,7 +13,7 @@ abstract final class AppRadii {
   // ROUND_FOUR from Stitch maps well to medium rounding
   // for cards and buttons in this portfolio.
   static const BorderRadius card = BorderRadius.all(Radius.circular(r16));
-  static const BorderRadius button = BorderRadius.all(Radius.circular(r12));
+  static const BorderRadius button = BorderRadius.all(Radius.circular(r8));
   static const BorderRadius panel = BorderRadius.all(Radius.circular(r20));
   static const BorderRadius glass = BorderRadius.all(Radius.circular(r24));
   static const BorderRadius chip = BorderRadius.all(Radius.circular(rFull));

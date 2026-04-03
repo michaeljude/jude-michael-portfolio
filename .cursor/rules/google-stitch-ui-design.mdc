@@ -1,0 +1,18 @@
+---
+description: Use Google Stitch as the default source of truth for UI and design guidance
+alwaysApply: true
+---
+
+# Google Stitch UI Guidance
+
+When the user asks about UI, styling, layout, visual polish, design systems, or UX direction for this project, default to the Google Stitch project and its `Circuit & Syntax` design system as the source of truth.
+
+Follow these rules:
+
+- Use the existing project skill: `.cursor/skills/circuit-syntax-portfolio/SKILL.md`.
+- Treat Stitch project `15785731210514207986` as the canonical project context.
+- Treat the `Circuit & Syntax` design system as the default visual language unless the user explicitly asks to diverge.
+- Keep recommendations aligned with the Digital Blueprint aesthetic: premium, technical, editorial, dark, and grid-driven.
+- Prefer the established token system in `lib/app/theme/` over ad hoc UI suggestions.
+- Preserve the no-line rule, tonal surface layering, emerald/cyber-blue accents, and Space Grotesk + Inter typography guidance when discussing design.
+- If UI guidance conflicts with an explicit user request, follow the user's request and call out the tradeoff briefly.
