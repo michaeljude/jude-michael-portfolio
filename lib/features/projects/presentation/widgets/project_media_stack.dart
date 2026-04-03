@@ -12,12 +12,15 @@ class ProjectMediaStack extends StatelessWidget {
 
   final List<String> imagePaths;
 
+  bool _isPng(String path) => path.toLowerCase().endsWith('.png');
+
   @override
   Widget build(BuildContext context) {
     if (imagePaths.isEmpty) return const _BlueprintPlaceholderPanel();
 
     final primary = imagePaths.first;
     final secondary = imagePaths.length > 1 ? imagePaths[1] : null;
+    final tertiary = imagePaths.length > 2 ? imagePaths[2] : null;
     final breakpoint = AppBreakpoint.of(context);
     final isDesktop = breakpoint.index >= AppBreakpoint.desktop.index;
     final height = isDesktop ? 340.0 : 320.0;
@@ -25,6 +28,78 @@ class ProjectMediaStack extends StatelessWidget {
     final secondaryWidth = isDesktop ? 240.0 : 220.0;
     final secondaryRight = isDesktop ? -18.0 : 0.0;
     final secondaryBottom = isDesktop ? -10.0 : 0.0;
+
+    // Heuristic:
+    // - Transparent PNG device renders (like Maya) look best as an overlapping stack.
+    // - JPEG screenshots/photos look best as framed tiles.
+    final useOverlap =
+        _isPng(primary) && (secondary == null || _isPng(secondary));
+
+    if (!useOverlap) {
+      final tiles = <Widget>[
+        Expanded(
+          child: _MediaFrame(
+            width: double.infinity,
+            padding: EdgeInsets.zero,
+            child: ClipRRect(
+              borderRadius: AppRadii.panel,
+              child: Image.asset(primary, fit: BoxFit.cover),
+            ),
+          ),
+        ),
+        if (secondary != null) ...<Widget>[
+          const SizedBox(width: AppSpacing.x4, height: AppSpacing.x4),
+          Expanded(
+            child: _MediaFrame(
+              width: double.infinity,
+              emphasized: true,
+              padding: EdgeInsets.zero,
+              child: ClipRRect(
+                borderRadius: AppRadii.panel,
+                child: Image.asset(secondary, fit: BoxFit.cover),
+              ),
+            ),
+          ),
+        ],
+      ];
+
+      final main = AspectRatio(
+        aspectRatio: isDesktop ? 1.65 : 1.15,
+        child: isDesktop
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: tiles,
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(child: tiles.first),
+                  if (secondary != null) ...<Widget>[
+                    const SizedBox(height: AppSpacing.x4),
+                    Expanded(child: tiles.last),
+                  ],
+                ],
+              ),
+      );
+
+      if (tertiary == null) return main;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          main,
+          const SizedBox(height: AppSpacing.x4),
+          _MediaFrame(
+            width: double.infinity,
+            padding: EdgeInsets.zero,
+            child: ClipRRect(
+              borderRadius: AppRadii.panel,
+              child: Image.asset(tertiary, fit: BoxFit.cover),
+            ),
+          ),
+        ],
+      );
+    }
 
     return SizedBox(
       height: height,
@@ -62,11 +137,13 @@ class _MediaFrame extends StatelessWidget {
     required this.width,
     required this.child,
     this.emphasized = false,
+    this.padding = const EdgeInsets.all(AppSpacing.x4),
   });
 
   final double width;
   final Widget child;
   final bool emphasized;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +164,7 @@ class _MediaFrame extends StatelessWidget {
       child: ClipRRect(
         borderRadius: AppRadii.panel,
         child: SectionSurface(
-          padding: const EdgeInsets.all(AppSpacing.x4),
+          padding: padding,
           background: emphasized
               ? AppColorTokens.surfaceContainerHighest
               : AppColorTokens.surfaceContainerHigh,
