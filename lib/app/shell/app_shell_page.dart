@@ -231,13 +231,6 @@ class _BrandBlock extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'CIRCUIT & SYNTAX',
-          style: theme.textTheme.labelMedium?.copyWith(
-            color: theme.colorScheme.primary,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.x1),
-        Text(
           'JUDE MICHAEL',
           style: GoogleFonts.spaceGrotesk(
             textStyle: theme.textTheme.titleLarge?.copyWith(

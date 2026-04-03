@@ -105,9 +105,43 @@ class _Hero extends StatelessWidget {
     final left = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'DIGITAL BLUEPRINT',
-          style: textTheme.labelMedium?.copyWith(color: scheme.primary),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: Color.alphaBlend(
+              AppColorTokens.primary.withValues(alpha: 0.12),
+              AppColorTokens.surfaceContainerLowest,
+            ),
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(
+              color: AppColorTokens.primary.withValues(alpha: 0.24),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.x3,
+              vertical: AppSpacing.x2,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: scheme.primary,
+                  ),
+                  child: const SizedBox(width: 8, height: 8),
+                ),
+                const SizedBox(width: AppSpacing.x2),
+                Text(
+                  'AVIALABLE FOR NEW PROJECTS',
+                  style: textTheme.labelMedium?.copyWith(
+                    color: scheme.primary,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
         const SizedBox(height: AppSpacing.x3),
         Text(
